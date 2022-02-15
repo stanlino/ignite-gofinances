@@ -37,6 +37,7 @@ const schema = Yup.object().shape({
   amount: Yup
   .number()
   .typeError('Informe um valor numérico')
+  .required('Preço é obrigatório')
   .positive('O valor não pode ser negativo')
 })
 
@@ -141,7 +142,10 @@ export function Register() {
 
         </Form>
 
-        <Modal visible={categoryModalIsVisible} onRequestClose={handleToggleCategoryModalVisible} >
+        <Modal 
+          visible={categoryModalIsVisible} 
+          onRequestClose={handleToggleCategoryModalVisible} 
+        >
           <CategorySelect 
             category={category}
             closeSelectCategory={handleToggleCategoryModalVisible}
