@@ -41,7 +41,10 @@ export function HighlightCard({
 
         <Footer>
             <Amount type={type}>{amount}</Amount>
-            <LastTrasaction type={type}>{lastTransaction}</LastTrasaction>
+            <LastTrasaction type={type}>
+              {type !== 'total' && `Ultima' ${type === 'up' ? 'entrada' : 'saída'} dia `} 
+              {lastTransaction}
+            </LastTrasaction>
         </Footer>
     </Container>
   );
