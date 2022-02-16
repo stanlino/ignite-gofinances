@@ -102,8 +102,8 @@ export function Register() {
       const currentData = data ? JSON.parse(data) : []
 
       await AsyncStorage.setItem(dataKey, JSON.stringify([
-        ...currentData, 
-        newTransaction
+        newTransaction,
+        ...currentData
       ]))
 
       setTransactionType('');
