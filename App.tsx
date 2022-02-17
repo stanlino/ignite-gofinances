@@ -17,6 +17,8 @@ import theme from './src/global/styles/theme'
 import { Routes } from './src/routes'
 import { StatusBar } from 'react-native';
 
+import { AuthProvider } from './src/hooks/auth';
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -31,7 +33,11 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar barStyle={'light-content'} backgroundColor={theme.colors.primary} />
-      <Routes />
+      
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+      
     </ThemeProvider>
   )
 }
