@@ -25,6 +25,7 @@ import {
 } from './styles';
 import { ActivityIndicator, Alert } from 'react-native';
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../hooks/auth';
 
 export interface DataListProps extends TransactionCardProps {
   id: string
@@ -49,14 +50,20 @@ export function Dashboard() {
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData)
   
   const { colors } = useTheme()
+  const { signOut, user } = useAuth()
 
   function getLastTransactionDate(
     collection: DataListProps[], 
     type: 'positive' | 'negative'
   ) {
 
-    const lastTrasaction = new Date(Math.max.apply(Math, collection
+    const collectionFilttred = collection
     .filter(transaction => transaction.type === type)
+
+    if (collectionFilttred.length === 0)
+      return "0"
+
+    const lastTrasaction = new Date(Math.max.apply(Math, collectionFilttred
     .map(transaction => new Date(transaction.date).getTime())))
 
     return `${lastTrasaction.getDate()} de ${lastTrasaction.toLocaleString('pt-BR', {
@@ -66,7 +73,7 @@ export function Dashboard() {
 
   async function loadTransactions() {
 
-    const dataKey = '@gofinances:transactions'
+    const dataKey = `@gofinances:transactions_user:${user.id}`
 
     let entriesTotal = 0
     let expensiveTotal = 0
@@ -112,7 +119,9 @@ export function Dashboard() {
 
       const lastTransactionsExpensives = getLastTransactionDate(transactions, 'negative')
 
-      const totalInterval = `01 a ${lastTransactionsExpensives}`
+      const totalInterval = lastTransactionsExpensives === '0'
+      ? 'Não há transações'
+      : `01 a ${lastTransactionsExpensives}`
 
       const total = entriesTotal - expensiveTotal
 
@@ -172,15 +181,15 @@ export function Dashboard() {
             <UserWrapper>
               <UserInfo>
                 <Photo 
-                  source={{ uri: 'https://avatars.githubusercontent.com/u/51935002?v=4' }} 
+                  source={{ uri: user.photo }} 
                 />
                 <User>
                   <UserGreeting>Olá, </UserGreeting>
-                  <UserName>Stanley</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
 
-              <LogoutButton onPress={() => {}}>
+              <LogoutButton onPress={signOut}>
                 <Icon name="power" />
               </LogoutButton>
               

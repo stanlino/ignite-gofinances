@@ -30,6 +30,7 @@ import {
   Fields,
   TransactionsTypes
 } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 interface FormData {
   [name: string]: any;
@@ -69,6 +70,8 @@ export function Register() {
     resolver: yupResolver(schema)
   })
 
+  const { user } = useAuth()
+
   const { navigate } = useNavigation<NavigationProps>()
 
   function handleTransactionsTypeSelect(type: 'positive' | 'negative') {
@@ -96,7 +99,7 @@ export function Register() {
     }
 
     try {
-      const dataKey = '@gofinances:transactions'
+      const dataKey = `@gofinances:transactions_user:${user.id}`
 
       const data = await AsyncStorage.getItem(dataKey)
       const currentData = data ? JSON.parse(data) : []
