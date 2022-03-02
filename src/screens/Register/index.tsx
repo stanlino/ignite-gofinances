@@ -175,6 +175,7 @@ export function Register() {
             <CategorySelectButton 
               title={category.name}
               onPress={handleToggleCategoryModalVisible}
+              testID='category-select-button'
             />
 
           </Fields>
@@ -187,6 +188,7 @@ export function Register() {
         </Form>
 
         <Modal 
+          testID='modal-category'
           visible={categoryModalIsVisible} 
           onRequestClose={handleToggleCategoryModalVisible} 
         >
