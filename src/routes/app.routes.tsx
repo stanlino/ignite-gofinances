@@ -8,6 +8,7 @@ import { Dashboard } from '../screens/Dashboard'
 import { Register } from '../screens/Register'
 import { useTheme } from 'styled-components'
 import { Resume } from '../screens/Resume'
+import { Platform } from 'react-native'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 
@@ -22,7 +23,13 @@ export function AppRoutes() {
                 tabBarActiveTintColor: colors.secundary,
                 tabBarInactiveTintColor: colors.text,
                 tabBarLabelPosition: 'beside-icon',
+                tabBarHideOnKeyboard: true,
+                tabBarStyle: {
+                    paddingVertical: Platform.OS === 'ios' ? 20 : 0,
+                    height: 60
+                }
             }}
+            
         >
             
             <Screen

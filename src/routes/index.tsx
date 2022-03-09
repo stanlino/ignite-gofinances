@@ -5,6 +5,7 @@ import { AppRoutes } from './app.routes'
 import { useAuth } from '../hooks/auth'
 import { AuthRoutes } from './auth.routes'
 import AppLoading from 'expo-app-loading'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export function Routes() {
 
@@ -16,7 +17,9 @@ export function Routes() {
 
     return (
         <NavigationContainer>
-            {user.id ? <AppRoutes /> : <AuthRoutes />}
+            <SafeAreaProvider>
+                {user.id ? <AppRoutes /> : <AuthRoutes />}
+            </SafeAreaProvider>
         </NavigationContainer>
     )
 }
